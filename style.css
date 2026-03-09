@@ -1,0 +1,483 @@
+/* =================================================
+   GLOBAL
+================================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  overflow-x: hidden; /* prevent horizontal scrolling */
+  height: 100vh;
+}
+
+/* =================================================
+   MAIN LAYOUT
+================================================= */
+.gameLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ================= TOP BAR ================= */
+.topBar {
+  background: #222;
+  color: white;
+
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Buttons in top bar */
+.topBar button {
+  width: 150px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #36d1dc, #5b86e5);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.topBar button:hover {
+  transform: scale(1.05);
+}
+
+/* ================= MAIN AREA ================= */
+.mainArea {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  overflow: hidden; /* prevent scroll */
+}
+
+/* =================================================
+   ROOM SECTION
+================================================= */
+.roomSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e5e7eb;
+  height: 100%;
+  position: relative;
+}
+
+#roomCanvas {
+  width: 95%;
+  height: 95%;
+  position: relative;
+}
+
+#roomCanvasImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* FURNITURE ITEMS (DRAGGABLE) */
+#roomCanvas img:not(#roomImage) {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  transition: top 0.1s, left 0.1s;
+}
+
+#roomCanvas img:not(#roomImage):active {
+  cursor: grabbing;
+  z-index: 1000;
+}
+
+/* =================================================
+   SHOP PANEL
+================================================= */
+.shopSection {
+  background: white;
+  border-left: 3px solid #ddd;
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.shopSection h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* CATEGORY BUTTONS */
+.categoryPanel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.category {
+  padding: 12px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.category:hover {
+  background: #2563eb;
+}
+
+/* ITEM OPTIONS */
+#itemOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.tierViewer {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fafafa;
+  color: black;
+}
+
+.tierViewer h3 {
+  margin-top: 0;
+  color: #3b82f6;
+}
+
+.viewerControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.viewerControls button {
+  height: 30px;
+  cursor: pointer;
+}
+
+.itemDisplay img {
+  margin: 5px 0;
+  width: 100px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.itemDisplay img:hover {
+  transform: scale(1.05);
+}
+
+/* =================================================
+   CONTROLS (Change View / Finish Room)
+================================================= */
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* center horizontally */
+  gap: 10px;
+  margin-top: auto; /* pushes controls to bottom of shopSection */
+  padding-bottom: 10px;
+}
+
+.controls button {
+  flex: 0 0 150px; /* fixed width for both buttons */
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #10b981;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.controls button:hover {
+  transform: scale(1.05);
+}
+
+/* =================================================
+   BOTTOM CONTROLS (if needed)
+================================================= */
+.bottomControls {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 2000;
+}
+
+.bottomControls button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  background: #10b981;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.bottomControls button:hover {
+  background: #059669;
+}
+
+/* =================================================
+   START SCREEN (if used)
+================================================= */
+body.start-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #36d1dc, #5b86e5);
+  color: white;
+  font-size: 24px;
+}
+
+.start-screen .controls {
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+body.start-screen {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0px;
+  background: linear-gradient(135deg,#66e35d, #89e7fa,#1441e3);
+  font-family: 'Trebuchet MS', sans-serif;
+  color:#000;
+}
+
+.slides-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 700px;
+  padding: 20px;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slide img {
+  width: 700px;
+  margin-bottom: 20px;
+}
+
+.slide p {
+  font-size: 2.0rem;
+  margin-bottom: 60px;
+}
+/*
+#nextBtn {
+  font-size: 1.7rem;
+  cursor: pointer;
+  font-weight: bold;
+  background-color:#ffa142 ;
+  border:none;
+  border-radius: 20px;
+  color:#000080;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+#nextBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+
+}
+  */
+.slide .tip {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 3px #000;
+  font-style: italic;
+}
+
+.slide-controls {
+  margin-top: -30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.slide-controls button {
+  width: 180px;           /* same width for both */
+  height: 60px;           /* same height */
+  font-size: 1.7rem;      /* text size */
+  border-radius: 15px; /*round borders*/
+  border: none;
+  cursor: pointer;
+  background: #ffa142;
+  color:#000080;
+  box-shadow: 0 6px 15px rgba (0,0,0,0.3);
+  text-align: center;
+  font-weight: bold;
+}
+
+.slide-controls button:hover {
+  transform: scale(1.1);
+}
+
+
+.gameInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.topButtons {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+#resetBtn, #backtoDiceBtn {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(45deg, #36d1dc, #5b86e5);
+  color: white;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#resetBtn:hover, #backtoDiceBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+#timer {
+  font-size: 16px;
+  color: orange;
+}
+
+#drawer {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.locked {
+  background: #ddd;
+}
+
+.Direct {
+  color: yellow
+}
+
+
+/* =========================================
+   IPAD PORTRAIT MODE
+========================================= */
+
+@media (orientation: portrait) {
+
+.mainArea {
+  grid-template-columns: 1fr;
+  grid-template-rows: 55% 45%;
+}
+
+/* ROOM AREA */
+.roomSection {
+  height: 100%;
+}
+
+/* ROOM CANVAS */
+#roomCanvas {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* SHOP PANEL */
+.shopSection {
+  border-left: none;
+  border-top: 3px solid #ddd;
+  padding: 15px;
+}
+
+/* CATEGORY BUTTONS */
+.categoryPanel {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* SHOP ITEMS */
+#itemOptions {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+/* CONTROLS */
+.controls {
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* MAKE BUTTONS BIGGER FOR TOUCH */
+.category,
+.controls button,
+#resetBtn,
+#backtoDiceBtn {
+  font-size: 18px;
+  padding: 14px;
+}
+
+}
+
+@media (orientation: portrait) {
+
+.topBar {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.topButtons {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+}

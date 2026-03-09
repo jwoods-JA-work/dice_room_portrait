@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎲 Roll Your Budget! 🎉</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1);
+  font-family: 'Comic Neue', cursive;
+  overflow: hidden;
+}
+
+h1 {
+  margin-bottom: 40px;
+  color: #fff;
+  font-size: 2.5rem;
+  text-shadow: 3px 3px #ff6f91;
+  text-align: center;
+}
+
+.dice-container {
+  perspective: 1200px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.shadow {
+  width: 250px;
+  height: 30px;
+  background: rgba(255, 255, 0, 0.4);
+  border-radius: 50%;
+  margin: auto;
+  position: absolute;
+  top: 220px;
+  left: 0;
+  right: 0;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.6;
+  filter: blur(6px);
+}
+
+.dice {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
+  margin: auto;
+}
+.face {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  font-weight: bold;
+  border-radius: 30px;
+  background: linear-gradient(145deg, #171ef8, #49a6f8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  color: #fff;
+  border: 6px solid #fff;
+}
+
+/* Dice faces positions */
+.face1 { transform: rotateY(0deg) translateZ(125px); }
+.face2 { transform: rotateY(90deg) translateZ(125px); }
+.face3 { transform: rotateY(180deg) translateZ(125px); }
+.face4 { transform: rotateY(-90deg) translateZ(125px); }
+.face5 { transform: rotateX(90deg) translateZ(125px); }
+.face6 { transform: rotateX(-90deg) translateZ(125px); }
+
+#rollBtn {
+  padding: 20px 40px;
+  font-size: 26px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ff6f91, #ff9671);
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px #000;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+
+#rollBtn:hover {
+  background: linear-gradient(45deg, #ff9671, #ff6f91);
+  transform: scale(1.05);
+}
+
+/* Confetti */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: randomColor();
+  top: -10px;
+  animation: fall 3s linear infinite;
+}
+
+#goRoomBtn {
+  padding: 20px 40px;
+  font-size: 26px;
+  border-radius: 25px;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(600px) rotate(720deg); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<h1>🎲 Roll the Dice to Get Your Budget! 💰</h1>
+
+<div class="dice-container">
+  <div class="dice" id="dice">
+    <div class="face face1">💰 $2500</div>
+    <div class="face face2">💰 $3000</div>
+    <div class="face face3">💰 $3500</div>
+    <div class="face face4">💰 $4000</div>
+    <div class="face face5">💰 $4500</div>
+    <div class="face face6">💰 $5000</div>
+  </div>
+  <div class="shadow" id="shadow"></div>
+</div>
+
+<button id="rollBtn">🎉 Roll Dice! 🎉</button>
+<button id="goRoomBtn" style="display:none; margin-top:20px; padding:16px 32px; font-size:22px; border:none; border-radius:20px; cursor:pointer; background: linear-gradient(45deg, #6fffb0, #00c9ff); color:#fff; font-weight:bold; text-shadow:1px 1px #000; box-shadow:0 6px 10px rgba(0,0,0,0.3);">
+  🏠 Go Design Your Room! 🎨
+</button>
+
+<audio id="rollSound" src="dice-roll.mp3"></audio> <!-- Add dice sound in same folder -->
+
+<script>
+const dice = document.getElementById('dice');
+const shadow = document.getElementById('shadow');
+const rollBtn = document.getElementById('rollBtn');
+const goRoomBtn = document.getElementById('goRoomBtn');
+const rollSound = document.getElementById('rollSound');
+
+const rotations = [
+  { x: 0, y: 0 },
+  { x: 0, y: -90 },
+  { x: 0, y: -180 },
+  { x: 0, y: 90 },
+  { x: 90, y: 0 },
+  { x: -90, y: 0 }
+];
+
+function rollDice3D() {
+  rollBtn.disabled = true;
+  rollSound.currentTime = 0;
+  rollSound.play();
+
+  const finalFace = Math.floor(Math.random() * 6);
+  const extraX = 360 * (Math.floor(Math.random() * 3) + 2);
+  const extraY = 360 * (Math.floor(Math.random() * 3) + 2);
+  const finalX = rotations[finalFace].x + extraX;
+  const finalY = rotations[finalFace].y + extraY;
+
+  dice.style.transition = 'transform 2s cubic-bezier(0.25, 1, 0.5, 1)';
+  dice.style.transform = `rotateX(${finalX}deg) rotateY(${finalY}deg)`;
+
+  shadow.style.transition = 'transform 2s, opacity 2s';
+  shadow.style.transform = 'scale(1) translateY(0px)';
+  shadow.style.opacity = '0.6';
+
+  setTimeout(() => {
+    dice.style.transition = 'transform 0.2s';
+    dice.style.transform += ' translateY(-20px)';
+    shadow.style.transform = 'scale(0.8) translateY(20px)';
+    shadow.style.opacity = '0.3';
+
+    setTimeout(() => {
+      dice.style.transform = `rotateX(${finalX}deg) rotateY(${finalY}deg) translateY(0px)`;
+      shadow.style.transform = 'scale(1) translateY(0px)';
+      shadow.style.opacity = '0.6';
+    }, 200);
+
+    // Save budget
+    const budgetMap = [2500, 3000, 3500, 4000, 5000, 4500];
+    const finalBudget = budgetMap[finalFace];
+    localStorage.setItem('gameBudget', finalBudget);
+
+    // Show "Go Design Your Room" button
+    goRoomBtn.style.display = 'inline-block';
+  }, 2200);
+}
+
+// Event listeners
+rollBtn.addEventListener('click', rollDice3D);
+goRoomBtn.addEventListener('click', () => {
+  window.location.href = 'start.html';
+});
+
+// Optional: generate random confetti
+for(let i=0;i<50;i++){
+  const conf = document.createElement('div');
+  conf.className = 'confetti';
+  conf.style.left = Math.random() * window.innerWidth + 'px';
+  conf.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+  conf.style.animationDuration = 2 + Math.random()*3 + 's';
+  document.body.appendChild(conf);
+}
+</script>
+<script src="game.js"></script>
+<script src="dice.js"></script>
+</body>
+</html>
