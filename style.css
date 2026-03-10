@@ -144,29 +144,33 @@ body {
   background: #2563eb;
 }
 
-/* ITEM OPTIONS */
-#itemOptions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 15px;
-}
+@media (orientation: portrait) {
 
-.tierViewer {
-  flex: 1;
-  min-width: 120px;
-  text-align: center;
-  border: 2px solid #eee;
-  border-radius: 10px;
-  padding: 10px;
-  background: #fafafa;
-  color: black;
-}
+  /* STACK ITEMS VERTICALLY */
+  #itemOptions {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    gap: 15px;
+  }
 
-.tierViewer h3 {
-  margin-top: 0;
-  color: #3b82f6;
+  .tierViewer {
+    flex: 0 0 40%;  /* make each item take 40% of the width */
+    min-width: 140px; /* minimum size for readability */
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .tierViewer h3 {
+    font-size: 1rem; /* slightly smaller but still readable */
+  }
+
+  .itemDisplay img {
+    width: 120px; /* bigger image so the item is easier to see */
+    margin-bottom: 8px;
+  }
+
 }
 
 .viewerControls {
@@ -180,13 +184,6 @@ body {
   cursor: pointer;
 }
 
-.itemDisplay img {
-  margin: 5px 0;
-  width: 100px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
-}
 
 .itemDisplay img:hover {
   transform: scale(1.05);
