@@ -10,7 +10,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: #f4f6f8;
-  overflow-x: hidden; /* prevent horizontal scrolling */
+  overflow-x: hidden;
   height: 100vh;
 }
 
@@ -27,17 +27,14 @@ body {
 .topBar {
   background: #222;
   color: white;
-
   padding: 5px 10px;
   font-size: 14px;
   font-weight: bold;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Buttons in top bar */
 .topBar button {
   width: 150px;
   font-size: 1rem;
@@ -61,7 +58,7 @@ body {
   flex: 1;
   display: grid;
   grid-template-columns: 2fr 1fr;
-  overflow: hidden; /* prevent scroll */
+  overflow: hidden;
 }
 
 /* =================================================
@@ -109,11 +106,11 @@ body {
 .shopSection {
   background: white;
   border-left: 3px solid #ddd;
-  padding: 20px;
+  padding: 10px;
   overflow-y: auto;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .shopSection h2 {
@@ -126,7 +123,7 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .category {
@@ -144,65 +141,63 @@ body {
   background: #2563eb;
 }
 
-@media (orientation: portrait) {
-
-  /* STACK ITEMS VERTICALLY */
-  #itemOptions {
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-x: hidden;
-    overflow-y: auto;
-    gap: 15px;
-  }
-
-  .tierViewer {
-    flex: 0 0 40%;  /* make each item take 40% of the width */
-    min-width: 140px; /* minimum size for readability */
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  .tierViewer h3 {
-    font-size: 1rem; /* slightly smaller but still readable */
-  }
-
-  .itemDisplay img {
-    width: 120px; /* bigger image so the item is easier to see */
-    margin-bottom: 8px;
-  }
-
-}
-
-.viewerControls {
+/* ================= SHOP ITEMS ================= */
+#itemOptions {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 15px;
+  padding-bottom: 20px;
+}
+
+.tierViewer {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  flex: 0 0 90%;
+  max-width: 250px;
+  min-width: 140px;
+  background: #fafafa;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-.viewerControls button {
-  height: 30px;
-  cursor: pointer;
+.tierViewer img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 5px;
 }
 
-
-.itemDisplay img:hover {
-  transform: scale(1.05);
+.tierViewer h3 {
+  font-size: 1rem;
+  margin: 5px 0 2px 0;
+  color: #3b82f6;
 }
 
-/* =================================================
-   CONTROLS (Change View / Finish Room)
-================================================= */
+.tierViewer p {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 2px 0;
+}
+
+/* ================= CONTROLS ================= */
 .controls {
   display: flex;
   flex-direction: row;
-  justify-content: center; /* center horizontally */
+  justify-content: center;
   gap: 10px;
-  margin-top: auto; /* pushes controls to bottom of shopSection */
+  margin-top: 10px;
   padding-bottom: 10px;
+  flex-shrink: 0; /* do not shrink */
 }
 
 .controls button {
-  flex: 0 0 150px; /* fixed width for both buttons */
+  flex: 0 0 150px;
   padding: 12px;
   font-size: 16px;
   font-weight: bold;
@@ -219,9 +214,7 @@ body {
   transform: scale(1.05);
 }
 
-/* =================================================
-   BOTTOM CONTROLS (if needed)
-================================================= */
+/* ================= BOTTOM CONTROLS ================= */
 .bottomControls {
   position: fixed;
   bottom: 10px;
@@ -247,16 +240,15 @@ body {
   background: #059669;
 }
 
-/* =================================================
-   START SCREEN (if used)
-================================================= */
+/* ================= START SCREEN ================= */
 body.start-screen {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #36d1dc, #5b86e5);
-  color: white;
+  background: linear-gradient(135deg,#66e35d, #89e7fa,#1441e3);
+  font-family: 'Trebuchet MS', sans-serif;
+  color:#000;
   font-size: 24px;
 }
 
@@ -266,17 +258,7 @@ body.start-screen {
   gap: 10px;
 }
 
-body.start-screen {
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0px;
-  background: linear-gradient(135deg,#66e35d, #89e7fa,#1441e3);
-  font-family: 'Trebuchet MS', sans-serif;
-  color:#000;
-}
-
+/* ================= SLIDES ================= */
 .slides-container {
   display: flex;
   flex-direction: column;
@@ -298,28 +280,10 @@ body.start-screen {
 }
 
 .slide p {
-  font-size: 2.0rem;
+  font-size: 2rem;
   margin-bottom: 60px;
 }
-/*
-#nextBtn {
-  font-size: 1.7rem;
-  cursor: pointer;
-  font-weight: bold;
-  background-color:#ffa142 ;
-  border:none;
-  border-radius: 20px;
-  color:#000080;
-  transition: all 0.3s ease;
-  text-align: center;
-}
 
-#nextBtn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 15px 25px rgba(0,0,0,0.5);
-
-}
-  */
 .slide .tip {
   font-size: 1.2rem;
   margin-top: 10px;
@@ -336,15 +300,15 @@ body.start-screen {
 }
 
 .slide-controls button {
-  width: 180px;           /* same width for both */
-  height: 60px;           /* same height */
-  font-size: 1.7rem;      /* text size */
-  border-radius: 15px; /*round borders*/
+  width: 180px;
+  height: 60px;
+  font-size: 1.7rem;
+  border-radius: 15px;
   border: none;
   cursor: pointer;
   background: #ffa142;
   color:#000080;
-  box-shadow: 0 6px 15px rgba (0,0,0,0.3);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
   text-align: center;
   font-weight: bold;
 }
@@ -353,7 +317,7 @@ body.start-screen {
   transform: scale(1.1);
 }
 
-
+/* ================= GAME INFO & TOP BUTTONS ================= */
 .gameInfo {
   display: flex;
   align-items: center;
@@ -394,121 +358,50 @@ body.start-screen {
   padding: 15px;
   border-radius: 10px;
   font-size: 18px;
-  transition: all 0.3s ease;
   text-align: center;
-}
-.locked {
-  background: #ddd;
+  transition: all 0.3s ease;
 }
 
-.Direct {
-  color: yellow
-}
+.locked { background: #ddd; }
+.Direct { color: yellow; }
 
-
-/* =========================================
-   IPAD PORTRAIT MODE
-========================================= */
 /* =========================================
    PORTRAIT MODE (iPad / Phones)
 ========================================= */
 @media (orientation: portrait) {
 
-  /* ---------------- MAIN AREA ---------------- */
   .mainArea {
-    display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 55% 45%; /* room gets more space */
-    overflow: hidden;
+    grid-template-rows: 55% 45%;
   }
 
-  /* ---------------- ROOM SECTION ---------------- */
-  .roomSection {
-    height: 100%;
-  }
+  .roomSection { height: 100%; }
 
-  #roomCanvas {
-    width: 100%;
-    height: 100%;
-    touch-action: none;
-  }
+  #roomCanvas { width: 100%; height: 100%; touch-action: none; }
 
-  /* ---------------- SHOP SECTION ---------------- */
   .shopSection {
     border-left: none;
     border-top: 3px solid #ddd;
     padding: 10px;
     height: 100%;
-    display: flex;
-    flex-direction: column;
   }
 
-  /* CATEGORY BUTTONS */
-  .categoryPanel {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+  .categoryPanel { grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
-  .category {
-    font-size: 18px;
-    padding: 14px;
-  }
-
-  /* ---------------- SHOP ITEMS ---------------- */
-  #itemOptions {
-    display: flex;
-    flex-wrap: wrap;        /* allow multiple rows */
-    justify-content: center;
-    overflow-x: hidden;     /* hide horizontal scroll */
-    overflow-y: auto;       /* vertical scroll if needed */
-    gap: 15px;
-    padding-bottom: 10px;
-  }
+  #itemOptions { flex-wrap: wrap; overflow-y: auto; padding-bottom: 20px; }
 
   .tierViewer {
-    flex: 0 0 90%;          /* almost full width */
-    max-width: 250px;       /* optional for big screens */
-    min-width: 140px;
-    text-align: center;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 10px;
-    background: #fafafa;
-    border: 2px solid #eee;
-    margin-bottom: 10px;
+    flex: 0 0 95%;
+    max-width: 300px;
   }
 
-  .tierViewer h3 {
-    font-size: 1rem;
-    margin: 5px 0 2px 0;
-    color: #3b82f6;
-  }
+  .tierViewer img { width: 120px; height: auto; }
 
-  .tierViewer p {
-    margin: 2px 0;
-    font-size: 0.95rem;
-    color: #333;
-  }
-
-  .itemDisplay img {
-    width: 120px;           /* bigger image */
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  .itemDisplay img:hover {
-    transform: scale(1.05);
-  }
-
-  /* ---------------- CONTROLS ---------------- */
   .controls {
     flex-direction: row;
     justify-content: center;
     gap: 10px;
-    margin-top: auto;
-    padding-bottom: 10px;
+    margin-top: 10px;
   }
 
   .controls button,
@@ -518,16 +411,6 @@ body.start-screen {
     padding: 14px;
   }
 
-  /* ---------------- TOP BAR ---------------- */
-  .topBar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .topButtons {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
+  .topBar { flex-direction: column; align-items: flex-start; gap: 5px; }
+  .topButtons { width: 100%; justify-content: flex-start; }
 }
