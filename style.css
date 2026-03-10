@@ -409,72 +409,125 @@ body.start-screen {
 /* =========================================
    IPAD PORTRAIT MODE
 ========================================= */
-
+/* =========================================
+   PORTRAIT MODE (iPad / Phones)
+========================================= */
 @media (orientation: portrait) {
 
-.mainArea {
-  grid-template-columns: 1fr;
-  grid-template-rows: 55% 45%;
-}
+  /* ---------------- MAIN AREA ---------------- */
+  .mainArea {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 55% 45%; /* room gets more space */
+    overflow: hidden;
+  }
 
-/* ROOM AREA */
-.roomSection {
-  height: 100%;
-}
+  /* ---------------- ROOM SECTION ---------------- */
+  .roomSection {
+    height: 100%;
+  }
 
-/* ROOM CANVAS */
-#roomCanvas {
-  width: 100%;
-  height: 100%;
-  touch-action: none;
-}
+  #roomCanvas {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+  }
 
-/* SHOP PANEL */
-.shopSection {
-  border-left: none;
-  border-top: 3px solid #ddd;
-  padding: 15px;
-}
+  /* ---------------- SHOP SECTION ---------------- */
+  .shopSection {
+    border-left: none;
+    border-top: 3px solid #ddd;
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-/* CATEGORY BUTTONS */
-.categoryPanel {
-  grid-template-columns: repeat(3, 1fr);
-}
+  /* CATEGORY BUTTONS */
+  .categoryPanel {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
 
-/* SHOP ITEMS */
-#itemOptions {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
+  .category {
+    font-size: 18px;
+    padding: 14px;
+  }
 
-/* CONTROLS */
-.controls {
-  flex-direction: row;
-  justify-content: center;
-}
+  /* ---------------- SHOP ITEMS ---------------- */
+  #itemOptions {
+    display: flex;
+    flex-wrap: wrap;        /* allow multiple rows */
+    justify-content: center;
+    overflow-x: hidden;     /* hide horizontal scroll */
+    overflow-y: auto;       /* vertical scroll if needed */
+    gap: 15px;
+    padding-bottom: 10px;
+  }
 
-/* MAKE BUTTONS BIGGER FOR TOUCH */
-.category,
-.controls button,
-#resetBtn,
-#backtoDiceBtn {
-  font-size: 18px;
-  padding: 14px;
-}
+  .tierViewer {
+    flex: 0 0 90%;          /* almost full width */
+    max-width: 250px;       /* optional for big screens */
+    min-width: 140px;
+    text-align: center;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    background: #fafafa;
+    border: 2px solid #eee;
+    margin-bottom: 10px;
+  }
 
-}
+  .tierViewer h3 {
+    font-size: 1rem;
+    margin: 5px 0 2px 0;
+    color: #3b82f6;
+  }
 
-@media (orientation: portrait) {
+  .tierViewer p {
+    margin: 2px 0;
+    font-size: 0.95rem;
+    color: #333;
+  }
 
-.topBar {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-}
+  .itemDisplay img {
+    width: 120px;           /* bigger image */
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
 
-.topButtons {
-  width: 100%;
-  justify-content: flex-start;
-}
+  .itemDisplay img:hover {
+    transform: scale(1.05);
+  }
+
+  /* ---------------- CONTROLS ---------------- */
+  .controls {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-bottom: 10px;
+  }
+
+  .controls button,
+  #resetBtn,
+  #backtoDiceBtn {
+    font-size: 18px;
+    padding: 14px;
+  }
+
+  /* ---------------- TOP BAR ---------------- */
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .topButtons {
+    width: 100%;
+    justify-content: flex-start;
+  }
 
 }
